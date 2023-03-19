@@ -7,4 +7,5 @@ interface UserInfoRepository {
     suspend fun getUserInfo(): UserProfile?
     suspend fun getUserMetadataInfo(): String
     suspend fun updateUserMetadataInfo(country: String): String
+    suspend fun validateIfCanConsumeAPI(): Boolean
 }

@@ -19,6 +19,7 @@ class HomeViewModel(
 
     init {
         loadUserInfo()
+        canConsumeAPI()
     }
 
     private fun loadUserInfo() = viewModelScope.launch {
@@ -32,6 +33,12 @@ class HomeViewModel(
             familyName = userProfile?.familyName.orEmpty(),
             urlImg = userProfile?.pictureURL.orEmpty()
         )
+    }
+
+    private fun canConsumeAPI() {
+        viewModelScope.launch {
+            userInfoRepository.validateIfCanConsumeAPI()
+        }
     }
 
     fun logout(context: Context) = viewModelScope.launch {

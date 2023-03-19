@@ -1,5 +1,6 @@
 package com.emm.auth0app.data.repository
 
+import com.auth0.android.jwt.JWT
 import com.auth0.android.result.Credentials
 import com.auth0.android.result.UserProfile
 import com.emm.auth0app.data.ds.AuthAPIManager
@@ -22,7 +23,8 @@ class UserInfoRepositoryImpl(
         val credentials = authManager.getCredentials() ?: return ""
         val accessToken = credentials.accessToken
         val id = credentials.user.getId() ?: return ""
-        return authAPIManager.getUserMetadata(accessToken, id)
+        return authAPIManager
+            .getUserMetadata(accessToken, id)
             ?.getUserMetadata()?.get("country") as String? ?: ""
     }
 
@@ -30,8 +32,15 @@ class UserInfoRepositoryImpl(
         val credentials = authManager.getCredentials() ?: return ""
         val accessToken = credentials.accessToken
         val id = credentials.user.getId() ?: return ""
-        return authAPIManager.updateUserMetadata(accessToken, id, mapOf("country" to country))
+        return authAPIManager
+            .updateUserMetadata(accessToken, id, mapOf("country" to country))
             ?.getUserMetadata()?.get("country") as String? ?: ""
+    }
+
+    override suspend fun validateIfCanConsumeAPI(): Boolean {
+        val credentials = authManager.getCredentials() ?: return false
+        val jwt = JWT(credentials.accessToken)
+        return jwt.audience?.contains("xx") ?: false
     }
 
 }
