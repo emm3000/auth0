@@ -1,10 +1,12 @@
 package com.emm.auth0app.domain.repository
 
+import com.auth0.android.result.Credentials
+
 interface AuthRepository {
 
-    fun login()
+    suspend fun login(): Credentials?
 
-    fun logout()
+    suspend fun logout()
 
     fun getUserInfo()
 
