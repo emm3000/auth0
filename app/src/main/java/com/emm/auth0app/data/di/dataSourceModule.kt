@@ -11,7 +11,6 @@ import org.koin.dsl.module
 val dataSourceModule = module {
     single<AuthManager> {
         Auth0Manager(
-            context = androidApplication(),
             account = get(),
             schema = get(qualifier = named("schema")),
             audience = get(qualifier = named("audience")),

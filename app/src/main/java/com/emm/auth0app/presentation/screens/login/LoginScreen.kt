@@ -1,5 +1,6 @@
 package com.emm.auth0app.presentation.screens.login
 
+import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import com.emm.auth0app.presentation.composeutils.UseEffect
 import org.koin.androidx.compose.koinViewModel
@@ -32,9 +34,11 @@ fun LoginScreen(
 @Composable
 private fun LoginScreen(
     loginState: LoginState,
-    onLoginClick: () -> Unit,
+    onLoginClick: (Context) -> Unit,
     onSuccessLogin: () -> Unit
 ) {
+
+    val context = LocalContext.current
 
     UseEffect(loginState) {
         if (loginState.isSuccess) {
@@ -47,7 +51,7 @@ private fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = onLoginClick) {
+        Button(onClick = { onLoginClick(context) }) {
             Text(text = "LOGIN")
         }
         Button(onClick = { /*TODO*/ }) {

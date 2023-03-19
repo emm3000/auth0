@@ -11,13 +11,12 @@ import kotlinx.coroutines.withContext
 private const val SCOPE = "openid profile email read:current_user update:current_user_metadata"
 
 class Auth0Manager(
-    private val context: Context,
     private val account: Auth0,
     private val schema: String,
     private val audience: String
 ): AuthManager {
 
-    override suspend fun login(): Credentials? = withContext(Dispatchers.IO) {
+    override suspend fun login(context: Context): Credentials? = withContext(Dispatchers.IO) {
         try {
             val credentials: Credentials = WebAuthProvider.login(account)
                 .withScheme(schema)
@@ -31,7 +30,7 @@ class Auth0Manager(
         }
     }
 
-    override suspend fun logout() = withContext(Dispatchers.IO) {
+    override suspend fun logout(context: Context) = withContext(Dispatchers.IO) {
         try {
             WebAuthProvider.logout(account)
                 .withScheme(schema)

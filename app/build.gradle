@@ -57,7 +57,6 @@ dependencies {
     implementation 'com.auth0.android:auth0:2.9.0'
     implementation "io.insert-koin:koin-android:3.3.3"
     implementation "io.insert-koin:koin-androidx-compose:3.4.2"
-    implementation 'io.insert-koin:koin-androidx-scope:3.2.2'
 
     // Jetpack compose
     def composeBom = platform('androidx.compose:compose-bom:2022.10.00')
