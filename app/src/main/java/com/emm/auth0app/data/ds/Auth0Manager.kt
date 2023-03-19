@@ -3,6 +3,8 @@ package com.emm.auth0app.data.ds
 import android.content.Context
 import com.auth0.android.Auth0
 import com.auth0.android.authentication.AuthenticationException
+import com.auth0.android.authentication.storage.CredentialsManager
+import com.auth0.android.authentication.storage.CredentialsManagerException
 import com.auth0.android.provider.WebAuthProvider
 import com.auth0.android.result.Credentials
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +14,10 @@ private const val SCOPE = "openid profile email read:current_user update:current
 
 class Auth0Manager(
     private val account: Auth0,
+    private val credentialsManager: CredentialsManager,
     private val schema: String,
     private val audience: String
-): AuthManager {
+) : AuthManager {
 
     override suspend fun login(context: Context): Credentials? = withContext(Dispatchers.IO) {
         try {
@@ -23,6 +26,7 @@ class Auth0Manager(
                 .withScope(SCOPE)
                 .withAudience(audience)
                 .await(context)
+            credentialsManager.saveCredentials(credentials)
             credentials
         } catch (e: AuthenticationException) {
             e.printStackTrace()
@@ -35,9 +39,25 @@ class Auth0Manager(
             WebAuthProvider.logout(account)
                 .withScheme(schema)
                 .await(context)
+            credentialsManager.clearCredentials()
         } catch (e: AuthenticationException) {
             e.printStackTrace()
+        } finally {
+            credentialsManager.clearCredentials()
         }
+    }
+
+    override suspend fun getCredentials(): Credentials? = withContext(Dispatchers.IO) {
+        try {
+            credentialsManager.awaitCredentials()
+        } catch (e: CredentialsManagerException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    override fun isAuthenticated(): Boolean {
+        return credentialsManager.hasValidCredentials()
     }
 
 }

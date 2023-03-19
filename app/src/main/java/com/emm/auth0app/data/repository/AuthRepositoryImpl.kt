@@ -1,4 +1,4 @@
-package com.emm.auth0app.data
+package com.emm.auth0app.data.repository
 
 import android.content.Context
 import com.auth0.android.result.Credentials
@@ -17,11 +17,4 @@ class AuthRepositoryImpl(
         return auth0Manager.logout(context)
     }
 
-    override fun getUserInfo() {
-        TODO("Not yet implemented")
-    }
-
-    override fun pathUserInfo() {
-        TODO("Not yet implemented")
-    }
 }

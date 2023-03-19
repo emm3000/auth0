@@ -12,12 +12,13 @@ val dataSourceModule = module {
     single<AuthManager> {
         Auth0Manager(
             account = get(),
+            credentialsManager = get(),
             schema = get(qualifier = named("schema")),
             audience = get(qualifier = named("audience")),
         )
     }
 
     single<AuthAPIManager> {
-        AuthAPIManagerImpl(get())
+        AuthAPIManagerImpl(get(), get())
     }
 }

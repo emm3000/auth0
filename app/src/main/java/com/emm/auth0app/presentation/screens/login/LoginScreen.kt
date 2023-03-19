@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.emm.auth0app.presentation.composeutils.UseEffect
 import org.koin.androidx.compose.koinViewModel
@@ -27,7 +28,11 @@ fun LoginScreen(
     LoginScreen(
         loginState = state.value,
         onLoginClick = vm::onLoginClick,
-        onSuccessLogin = { navController.navigate("home") }
+        onSuccessLogin = {
+            navController.navigate("home") {
+                popUpTo("login") { inclusive = true }
+            }
+        }
     )
 }
 
@@ -54,11 +59,16 @@ private fun LoginScreen(
         Button(onClick = { onLoginClick(context) }) {
             Text(text = "LOGIN")
         }
-        Button(onClick = { /*TODO*/ }) {
-            Text(text = "LOGOUT")
-        }
         if (loginState.isSuccess) {
             CircularProgressIndicator()
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoginScreenPreview() {
+    LoginScreen(loginState = LoginState(), onLoginClick = {}) {
+
     }
 }

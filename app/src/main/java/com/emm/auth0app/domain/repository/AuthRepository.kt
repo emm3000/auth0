@@ -9,8 +9,4 @@ interface AuthRepository {
 
     suspend fun logout(context: Context)
 
-    fun getUserInfo()
-
-    fun pathUserInfo()
-
 }
