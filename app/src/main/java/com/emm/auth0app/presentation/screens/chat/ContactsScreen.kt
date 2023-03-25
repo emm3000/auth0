@@ -151,7 +151,7 @@ private fun SearchComponent() {
         Spacer(modifier = Modifier.width(10.dp))
         Box(
             modifier = Modifier
-                .requiredSize(45.dp)
+                .size(45.dp)
                 .clip(RoundedCornerShape(10))
                 .background(Color(0xFF03A9F1))
                 .clickable(
