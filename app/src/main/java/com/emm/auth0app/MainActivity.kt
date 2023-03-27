@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
+import com.emm.auth0app.presentation.ChatApp
 import com.emm.auth0app.presentation.Root
 import com.emm.auth0app.presentation.fcmservice.NotificationUtils
 import com.google.firebase.messaging.FirebaseMessaging
@@ -23,7 +24,8 @@ class MainActivity : AppCompatActivity() {
             Surface(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Root()
+//                Root()
+                ChatApp()
             }
         }
     }
